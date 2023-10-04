@@ -1,51 +1,60 @@
 import { Link, NavLink } from "react-router-dom";
-import userDefault from '../../../assets/user.png'
+import userDefault from "../../../assets/user.png";
+import { useContext } from "react";
+import { AuthContext } from "../../../AuthProvider/AuthProvider";
 
 const Navbar = () => {
-    const links = <>
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleSignOut = () => {
+      logOut()
+      .then()
+      .catch()
+  }
+  const links = (
+    <>
       <li>
-            <NavLink
-              to="/"
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "text-[#ff444a] underline" : ""
-              }
-            >
-              Home
-            </NavLink>
-
-          </li>
-          <li>
-            <NavLink
-              to="/about"
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "text-[#ff444a] underline" : ""
-              }
-            >
-             About
-            </NavLink>
-
-          </li>
-          <li>
-            <NavLink
-              to="/career"
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "text-[#ff444a] underline" : ""
-              }
-            >
-            Career
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/login"
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "text-[#ff444a] underline" : ""
-              }
-            >
-              Login
-            </NavLink>
-          </li>
+        <NavLink
+          to="/"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "text-[#ff444a] underline" : ""
+          }
+        >
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/about"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "text-[#ff444a] underline" : ""
+          }
+        >
+          About
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/career"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "text-[#ff444a] underline" : ""
+          }
+        >
+          Career
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/login"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "text-[#ff444a] underline" : ""
+          }
+        >
+          Login
+        </NavLink>
+      </li>
     </>
+  );
 
   return (
     <div className="navbar bg-base-100">
@@ -74,20 +83,23 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-       
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-            {links}
-        </ul>
+        <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-      <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-        <div className="w-10 rounded-full">
-          <img src={userDefault} />
-        </div>
-      </label>
-        <Link to="/login"><button className="btn">Login</button></Link>
+        <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+          <div className="w-10 rounded-full">
+            <img src={userDefault} />
+          </div>
+        </label>
+        {user ? (
+          <button onClick={handleSignOut} className="btn">Sign out</button>
+        ) : (
+          <Link to="/login">
+            <button className="btn">Login</button>
+          </Link>
+        )}
       </div>
     </div>
   );
